@@ -1,6 +1,7 @@
 package com.yunhalee.Instagram_App.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class PostService {
 			Post postItem=postList.get(i);
 			postItem.setUserName(userService.displayUserMetaData(postItem.getUserId()).getUserName());
 		}
+		Collections.sort(postList, (a,b)-> b.getId() - a.getId());
 		return postList;
 	}
 

@@ -15,28 +15,64 @@ function Post(props) {
     }, [])
 
     const getComment= () =>{
-        let data = [
-            {
-                "username":"user1",
-                "commnetId" : "user123 ",
-                "timeStamp" : "20210101",
-                "description":"wow"
-            },
-            {
-                "username":"user1",
-                "commnetId" : "user123 ",
-                "timeStamp" : "20210101",
-                "description":"wow"
-            },
-            {
-                "username":"user1",
-                "commnetId" : "user123 ",
-                "timeStamp" : "20210101",
-                "description":"wow"
-            }
-        ]
+        // let data = [
+        //     {
+        //         "username":"user1",
+        //         "commnetId" : "user123 ",
+        //         "timeStamp" : "20210101",
+        //         "description":"wow"
+        //     },
+        //     {
+        //         "username":"user1",
+        //         "commnetId" : "user123 ",
+        //         "timeStamp" : "20210101",
+        //         "description":"wow"
+        //     },
+        //     {
+        //         "username":"user1",
+        //         "commnetId" : "user123 ",
+        //         "timeStamp" : "20210101",
+        //         "description":"wow"
+        //     }
+        // ]
 
-        setCommentList(data);
+        fetch("localhost:8080/comments" + this.props.id)
+        .then(response=> response.json())
+        .then(data =>{
+            setCommentList(data);
+
+
+        })
+    }
+
+    const submitComments= (e) =>{
+        if(e.key ==="Enter") {
+            let comment = e.currentTarget.value;
+            if(comment !==null || comment !== undefined){
+                let payload = {
+                    "commentId" : Math.floor(Math.random()*100000).toString(),
+                    "userId" : JSON.parse(localStorage.getItem("users")).uid,
+                    "postId" : props.id,
+                    "timeStamp": new Date().getTime(),
+                    "comment" : comment
+                }
+    
+                const requestOptions = {
+                    method:"POST",
+                    headers:{ "ContentType" : "application/json"}, 
+                    body: JSON.stringify(payload)
+                }
+    
+                fetch("localhost:8080/comments", requestOptions)
+                .then(response=> response.json())
+                .then(data =>{
+                    getComment();
+                })
+                .catch(error=>{
+                    
+                })
+            }
+        }
     }
     return (
         <div className="post__container">
@@ -64,12 +100,12 @@ function Post(props) {
             {/* Comment Section */}
             <div>
                 {
-                    commentList.map(item=>(
-                        <div className="post__comment"> {item.username} : {item.description}</div>                        
+                    commentList.map((item)=>(
+                        <div className="post__comment"> {item.username} : {item.comment}</div>                     
                     ))
                 }
 
-                <input className = "post__commentBox"type="text" placeholder="Add a comment ... " />
+                <input className = "post__commentBox" onKeyPress={submitComments} type="text" placeholder="Add a comment ... " />
             </div>
         </div>
     )

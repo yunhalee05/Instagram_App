@@ -32,7 +32,7 @@ function LoginPage() {
                                 <img className="loginpage__logo" src={insta_logo}  />
                                 <div className="loginpage__signin">
                                     {
-                                        isLogin? <Signin/> :<Signup/>
+                                        isLogin? <Signup/>:<Signin/> 
                                     }
                                     <div className="loginpage__ordiv">
                                         <div className="loginpage__divider"></div>
@@ -47,8 +47,9 @@ function LoginPage() {
                             <div className="loginpage__signupoption">
                                 {
                                     isLogin? 
-                                        <div className="loginpage___signin">Don't have an account?<span onClick={changeLogin} style={{"fontWeight":"bold", "color":"#0395f6" }}> Sign up</span></div> :
-                                        <div className="loginpage___signup">Have an account? <span  onClick={changeLogin} style={{"fontWeight":"bold", "color":"#0395f6" }} > Sign in </span> </div>
+                                    <div className="loginpage___signup">Have an account? <span  onClick={changeLogin} style={{"fontWeight":"bold", "color":"#0395f6" }} > Sign in </span> </div> :
+                                        <div className="loginpage___signin">Don't have an account?<span onClick={changeLogin} style={{"fontWeight":"bold", "color":"#0395f6" }}> Sign up</span></div> 
+                                        
                                 }
                             </div>
                             <div className="loginpage__downloadSection" >
